@@ -1,21 +1,13 @@
-import Card from '../card/card';
+import { offerType } from '../../mocks/offers';
+import Cards from '../cards/cards';
 import Map from '../map/map';
 import Sorting from '../sorting/sorting';
 
 type CitiesProps = {
-  offersCount: number;
+  offers: offerType[];
 };
 
-function getCards(offersCount: number): JSX.Element[] {
-  const cards: JSX.Element[] = [];
-  for (let index = 0; index < offersCount; index++) {
-    cards[index] = <Card />;
-  }
-
-  return cards;
-}
-
-function Cities({ offersCount }: CitiesProps): JSX.Element {
+function Cities({ offers }: CitiesProps): JSX.Element {
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -24,7 +16,7 @@ function Cities({ offersCount }: CitiesProps): JSX.Element {
           <b className="places__found">312 places to stay in Amsterdam</b>
           <Sorting />
           <div className="cities__places-list places__list tabs__content">
-            {getCards(offersCount)}
+            <Cards offers={offers} />
           </div>
         </section>
         <div className="cities__right-section">

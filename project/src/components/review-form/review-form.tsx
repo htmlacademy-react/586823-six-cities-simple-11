@@ -1,10 +1,27 @@
+import React, { useState } from 'react';
+
 function ReviewForm(): JSX.Element {
+  const [userAnswers, setUserAnswers] = useState({
+    value: '',
+    starsCount: 0
+  });
+
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
-        Your review
+        Your review {userAnswers.starsCount}
       </label>
-      <div className="reviews__rating-form form__rating">
+      <div className="reviews__rating-form form__rating" onClick={(evt) => {
+        const element = evt.target;
+
+        if (element.classList.contains('form__rating-input')) {
+          setUserAnswers({
+            ...userAnswers,
+            starsCount: Number(element.value),
+          });
+        }
+      }}
+      >
         <input
           className="form__rating-input visually-hidden"
           name="rating"
@@ -95,15 +112,23 @@ function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        onChange={(e) => {
+          setUserAnswers({ ...userAnswers,
+            value: e.target.value });
+        }}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set{' '}
+          To submit review please make sure to set
           <span className="reviews__star">rating</span> and describe your stay
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled >
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled
+        >
           Submit
         </button>
       </div>

@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Cities from '../components/cities/cities';
 import Header from '../components/header/header';
+import { offerType } from '../mocks/offers';
 
 type MainScreenProps = {
-  offersCount: number;
+  offers: offerType[];
 };
 
-function MainScreen({ offersCount }: MainScreenProps): JSX.Element {
+function MainScreen({ offers }: MainScreenProps): JSX.Element {
   return (
     <React.Fragment>
       <Header isLogged />
@@ -53,7 +54,7 @@ function MainScreen({ offersCount }: MainScreenProps): JSX.Element {
             </ul>
           </section>
         </div>
-        <Cities offersCount={offersCount} />
+        <Cities offers={offers} />
       </main>
     </React.Fragment>
   );
