@@ -1,3 +1,4 @@
+import React from 'react';
 import { offerType } from '../../mocks/offers';
 import Card from '../card/card';
 

@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
+import { commentType } from '../../mocks/comments';
 import { offerType } from '../../mocks/offers';
 import Error404 from '../error-404/error-404';
 import ReviewForm from '../review-form/review-form';
 
 type roomsType = {
   rooms: offerType[];
+  comments: commentType[][];
 };
 
 function generateGoods (goods: [string]) : JSX.Element[] {
@@ -16,9 +18,50 @@ function generateGoods (goods: [string]) : JSX.Element[] {
   return result;
 }
 
-function Room({ rooms }: roomsType) {
+function generateComments(comments: commentType[]): JSX.Element[] {
+  const result: JSX.Element[] = [];
+
+  comments.forEach((commentObj, i) => {
+    const {rating, user, comment, date} = commentObj;
+    result[i] = (
+      <li className="reviews__item">
+        <div className="reviews__user user">
+          <div className="reviews__avatar-wrapper user__avatar-wrapper">
+            <img
+              className="reviews__avatar user__avatar"
+              src={user.avatarUrl}
+              width="54"
+              height="54"
+              alt="Reviews avatar"
+            />
+          </div>
+          <span className="reviews__user-name">{user.name}</span>
+        </div>
+        <div className="reviews__info">
+          <div className="reviews__rating rating">
+            <div className="reviews__stars rating__stars">
+              <span style={{ width: `${rating * 20}%` }}></span>
+              <span className="visually-hidden">Rating</span>
+            </div>
+          </div>
+          <p className="reviews__text">
+            {comment}
+          </p>
+          <time className="reviews__time" dateTime={date}>
+            {new Date(date).toLocaleDateString('en-US')}
+          </time>
+        </div>
+      </li>
+    );
+  });
+
+  return result;
+}
+
+function Room({ rooms, comments }: roomsType) {
   const params = useParams();
-  const room : offerType = rooms.find((roomItem) => roomItem.id === Number(params.id));
+  const room: offerType = rooms.find((roomItem) => roomItem.id === Number(params.id));
+  const offerComments: commentType[] = comments[Number(params.id)];
   const {
     type,
     isPremium,
@@ -90,7 +133,7 @@ function Room({ rooms }: roomsType) {
           </div>
           <div className="property__rating rating">
             <div className="property__stars rating__stars">
-              <span style={{ width: '80%' }}></span>
+              <span style={{ width: `${rating * 20}%` }}></span>
               <span className="visually-hidden">Rating</span>
             </div>
             <span className="property__rating-value rating__value">
@@ -144,39 +187,10 @@ function Room({ rooms }: roomsType) {
           </div>
           <section className="property__reviews reviews"> {/*to do*/}
             <h2 className="reviews__title">
-              Reviews &middot; <span className="reviews__amount">1</span>
+              Reviews &middot; <span className="reviews__amount">{offerComments.length}</span>
             </h2>
             <ul className="reviews__list">
-              <li className="reviews__item">
-                <div className="reviews__user user">
-                  <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                    <img
-                      className="reviews__avatar user__avatar"
-                      src="img/avatar-max.jpg"
-                      width="54"
-                      height="54"
-                      alt="Reviews avatar"
-                    />
-                  </div>
-                  <span className="reviews__user-name">Max</span>
-                </div>
-                <div className="reviews__info">
-                  <div className="reviews__rating rating">
-                    <div className="reviews__stars rating__stars">
-                      <span style={{ width: '80%' }}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <p className="reviews__text">
-                    A quiet cozy and picturesque that hides behind a a river by
-                    the unique lightness of Amsterdam. The building is green and
-                    from 18th century.
-                  </p>
-                  <time className="reviews__time" dateTime="2019-04-24">
-                    April 2019
-                  </time>
-                </div>
-              </li>
+              {generateComments(offerComments)}
             </ul>
             <ReviewForm />
           </section>

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function ReviewForm(): JSX.Element {
   const [userAnswers, setUserAnswers] = useState({
     value: '',
-    starsCount: 0
+    starsCount: 0,
   });
 
   return (
@@ -11,16 +11,18 @@ function ReviewForm(): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">
         Your review {userAnswers.starsCount}
       </label>
-      <div className="reviews__rating-form form__rating" onClick={(evt) => {
-        const element = evt.target;
+      <div
+        className="reviews__rating-form form__rating"
+        onClick={(evt) => {
+          const element = evt.currentTarget;
 
-        if (element.classList.contains('form__rating-input')) {
-          setUserAnswers({
-            ...userAnswers,
-            starsCount: Number(element.value),
-          });
-        }
-      }}
+          if (element.classList.contains('form__rating-input')) {
+            setUserAnswers({
+              ...userAnswers,
+              starsCount: Number(evt.target.value),
+            });
+          }
+        }}
       >
         <input
           className="form__rating-input visually-hidden"
@@ -113,8 +115,7 @@ function ReviewForm(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={(e) => {
-          setUserAnswers({ ...userAnswers,
-            value: e.target.value });
+          setUserAnswers({ ...userAnswers, value: e.target.value });
         }}
       >
       </textarea>

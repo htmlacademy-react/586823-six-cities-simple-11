@@ -6,10 +6,10 @@ type CardType = {
 };
 
 function Card({ offer }: CardType): JSX.Element {
-  const { type, isPremium, price, title, id } = offer;
+  const { type, isPremium, price, title, id, rating } = offer;
 
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" data-id={id}>
       <div className="place-card__mark">
         <span>{isPremium === true ? 'Premium' : 'Standart'}</span>
       </div>
@@ -17,7 +17,7 @@ function Card({ offer }: CardType): JSX.Element {
         <a href="#">
           <img
             className="place-card__image"
-            src="img/apartment-01.jpg"
+            src={`img/apartment-0${id}.jpg`}
             width="260"
             height="200"
             alt="Place"
@@ -33,7 +33,7 @@ function Card({ offer }: CardType): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${rating * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
