@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { commentType } from '../../mocks/comments';
 import { offerType } from '../../mocks/offers';
 import Error404 from '../error-404/error-404';
+import Map from '../map/map';
 import ReviewForm from '../review-form/review-form';
 
 type roomsType = {
@@ -12,7 +13,7 @@ type roomsType = {
 function generateGoods (goods: [string]) : JSX.Element[] {
   const result: JSX.Element[] = [];
   for (let index = 0; index < goods.length; index++) {
-    result[index] = <li className="property__inside-item">{goods[index]}</li>;
+    result[index] = <li className="property__inside-item" key={`goods-${index}`}>{goods[index]}</li>;
   }
 
   return result;
@@ -22,9 +23,9 @@ function generateComments(comments: commentType[]): JSX.Element[] {
   const result: JSX.Element[] = [];
 
   comments.forEach((commentObj, i) => {
-    const {rating, user, comment, date} = commentObj;
+    const {rating, user, comment, date, id} = commentObj;
     result[i] = (
-      <li className="reviews__item">
+      <li className="reviews__item" key={id.toString()}>
         <div className="reviews__user user">
           <div className="reviews__avatar-wrapper user__avatar-wrapper">
             <img
@@ -60,9 +61,14 @@ function generateComments(comments: commentType[]): JSX.Element[] {
 
 function Room({ rooms, comments }: roomsType) {
   const params = useParams();
-  const room: offerType = rooms.find((roomItem) => roomItem.id === Number(params.id));
+  const room: offerType | undefined = rooms.find((roomItem) => roomItem.id === Number(params.id));
   const offerComments: commentType[] = comments[Number(params.id)];
+  if (room === undefined) {
+    return <Error404 />;
+  }
   const {
+    id,
+    city,
     type,
     isPremium,
     bedrooms,
@@ -73,9 +79,10 @@ function Room({ rooms, comments }: roomsType) {
     goods,
     description,
     host,
+    location
   } = room;
 
-  return room ? (
+  return (
     <section className="property">
       <div className="property__gallery-container container">
         <div className="property__gallery">
@@ -185,7 +192,7 @@ function Room({ rooms, comments }: roomsType) {
               </p>
             </div>
           </div>
-          <section className="property__reviews reviews"> {/*to do*/}
+          <section className="property__reviews reviews">
             <h2 className="reviews__title">
               Reviews &middot; <span className="reviews__amount">{offerComments.length}</span>
             </h2>
@@ -196,9 +203,22 @@ function Room({ rooms, comments }: roomsType) {
           </section>
         </div>
       </div>
+      <section className="">
+        <Map city={{
+          'name': city.name,
+          'latitude': city.location.latitude,
+          'longitude': city.location.longitude,
+          'zoom': city.location.zoom
+        }} points={[{
+          'latitude': location.latitude,
+          'longitude': location.longitude,
+          'id': id}]} selectedPoint={{
+          'latitude': location.latitude,
+          'longitude': location.longitude,
+          'id': id}}
+        />
+      </section>
     </section>
-  ) : (
-    <Error404 />
   );
 }
 

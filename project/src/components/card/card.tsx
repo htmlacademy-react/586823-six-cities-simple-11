@@ -9,7 +9,7 @@ function Card({ offer }: CardType): JSX.Element {
   const { type, isPremium, price, title, id, rating } = offer;
 
   return (
-    <article className="cities__card place-card" data-id={id}>
+    <article className="cities__card place-card" key={id.toString()}>
       <div className="place-card__mark">
         <span>{isPremium === true ? 'Premium' : 'Standart'}</span>
       </div>
