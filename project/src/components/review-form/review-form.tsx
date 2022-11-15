@@ -17,9 +17,10 @@ function ReviewForm(): JSX.Element {
           const element = evt.currentTarget;
 
           if (element.classList.contains('form__rating-input')) {
+            const target = evt.target as HTMLInputElement;
             setUserAnswers({
               ...userAnswers,
-              starsCount: Number(evt.target.value),
+              starsCount: Number(target.value),
             });
           }
         }}

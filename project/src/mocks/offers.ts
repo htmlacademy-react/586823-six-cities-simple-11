@@ -37,11 +37,11 @@ const offers: offerType[] = [
     bedrooms: 4,
     city: {
       location: {
-        latitude: 99.403624,
-        longitude: 1.214859,
+        latitude: 52.3740300,
+        longitude: 4.8896900,
         zoom: 10,
       },
-      name: 'Grahamtown',
+      name: 'Amsterdam',
     },
     description:
       'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -56,8 +56,8 @@ const offers: offerType[] = [
     images: ['img/1.png'],
     isPremium: false,
     location: {
-      latitude: 66.531987,
-      longitude: 4.119917,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     maxAdults: 1,
@@ -71,11 +71,11 @@ const offers: offerType[] = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 92.934604,
-        longitude: 3.726532,
+        latitude: 52.3740300,
+        longitude: 4.8896900,
         zoom: 10,
       },
-      name: 'Norfolk',
+      name: 'Amsterdam',
     },
     description:
       'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -90,8 +90,8 @@ const offers: offerType[] = [
     images: ['img/1.png'],
     isPremium: true,
     location: {
-      latitude: 94.994473,
-      longitude: 2.572926,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     maxAdults: 3,
@@ -105,11 +105,11 @@ const offers: offerType[] = [
     bedrooms: 1,
     city: {
       location: {
-        latitude: 95.848633,
-        longitude: 3.221729,
+        latitude: 52.3740300,
+        longitude: 4.8896900,
         zoom: 10,
       },
-      name: 'Ola',
+      name: 'Amsterdam',
     },
     description:
       'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -124,8 +124,8 @@ const offers: offerType[] = [
     images: ['img/1.png'],
     isPremium: true,
     location: {
-      latitude: 65.592359,
-      longitude: 1.132622,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8,
     },
     maxAdults: 4,
@@ -139,11 +139,11 @@ const offers: offerType[] = [
     bedrooms: 3,
     city: {
       location: {
-        latitude: 98.820622,
-        longitude: 1.522212,
+        latitude: 52.3740300,
+        longitude: 4.8896900,
         zoom: 10,
       },
-      name: 'Makena',
+      name: 'Amsterdam',
     },
     description:
       'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -158,8 +158,8 @@ const offers: offerType[] = [
     images: ['img/1.png'],
     isPremium: true,
     location: {
-      latitude: 92.902002,
-      longitude: 1.006529,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 8,
     },
     maxAdults: 3,
