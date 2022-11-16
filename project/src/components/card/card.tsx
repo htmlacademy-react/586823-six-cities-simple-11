@@ -3,13 +3,14 @@ import { offerType } from '../../mocks/offers';
 
 type CardType = {
   offer: offerType;
+  listItemHoverHandler?: any;
 };
 
-function Card({ offer }: CardType): JSX.Element {
+function Card({ offer, listItemHoverHandler }: CardType): JSX.Element {
   const { type, isPremium, price, title, id, rating } = offer;
 
   return (
-    <article className="cities__card place-card" key={id.toString()}>
+    <article className="cities__card place-card" onMouseEnter={listItemHoverHandler} data-id={id}>
       <div className="place-card__mark">
         <span>{isPremium === true ? 'Premium' : 'Standart'}</span>
       </div>
