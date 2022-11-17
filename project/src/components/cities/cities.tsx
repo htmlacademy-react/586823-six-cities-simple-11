@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AMSTERDAM_CITY } from '../../const';
 import { offerType } from '../../mocks/offers';
 import { Point, Points } from '../../types/types';
+import { getAllPoints } from '../../utils';
 import Cards from '../cards/cards';
 import Map from '../map/map';
 import Sorting from '../sorting/sorting';
@@ -10,28 +11,14 @@ type CitiesProps = {
   offers: offerType[];
 };
 
-function getAllPoints(offers: offerType[]): Points {
-  const result: Points = [];
-  offers.forEach((offer, i) => {
-    const point: Point = {
-      'latitude': offer.location.latitude,
-      'longitude': offer.location.longitude,
-      'id': offer.id,
-    };
-    result[i] = point;
-  });
-  return result;
-}
-
-
 function Cities({ offers }: CitiesProps): JSX.Element {
   const points: Points = getAllPoints(offers);
 
   const [selectedPoint, setSelectedPoint] = useState({});
 
-  function onCardHoover(card: React.MouseEvent) {
+  function onCardHoover(cardId: string) {
     const currentPoint = points.find((point) =>
-      point.id === Number(card),
+      point.id === Number(cardId),
     );
     if (currentPoint) {
       setSelectedPoint(currentPoint);
