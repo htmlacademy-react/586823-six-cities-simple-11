@@ -3,14 +3,14 @@ import PlaceCard from '../place-card/place-card';
 
 type CardType = {
   offer: offerType;
-  listItemHoverHandler?: React.MouseEventHandler<HTMLElement>;
+  listItemHoverHandler(id: string): void;
 };
 
 function Card({ offer, listItemHoverHandler }: CardType): JSX.Element {
   const { isPremium, id } = offer;
 
   return (
-    <article className="cities__card place-card" onMouseEnter={listItemHoverHandler} data-id={id}>
+    <article className="cities__card place-card" onMouseEnter={() => listItemHoverHandler(id.toString())} data-id={id}>
       <div className="place-card__mark">
         <span>{isPremium === true ? 'Premium' : 'Standart'}</span>
       </div>

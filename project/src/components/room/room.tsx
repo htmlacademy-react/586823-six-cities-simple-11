@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { commentType } from '../../mocks/comments';
 import { offerType } from '../../mocks/offers';
@@ -25,24 +25,22 @@ function generateGoods (goods: [string]) : JSX.Element[] {
   return result;
 }
 
-function getCards(offers: offerType[], onCardHoover: React.MouseEventHandler): JSX.Element[] {
-  const cards: JSX.Element[] = [];
-  for (let index = 0; index < offers.length; index++) {
-    cards[index] = <PlacesNear key={offers[index].id.toString()} offer={offers[index]} onCardHoover={onCardHoover}/>;
-  }
-
-  return cards;
-}
-
 function Room({ rooms, comments }: roomsType) {
   const params = useParams();
   const [selectedPoint, setSelectedPoint] = useState({});
-
+  const [points, setPoints] = useState<Points>([]);
   const room: offerType | undefined = rooms.find((roomItem) => roomItem.id === Number(params.id));
+
+  useEffect(() => {
+    if (room !== undefined) {
+      setPoints(getAllPoints(rooms.filter((flat) => room.id !== flat.id).slice(0, 3)));
+    }
+  }, [params.id, room, rooms]);
   const offerComments: commentType[] = comments[Number(params.id)];
   if (room === undefined) {
     return <Error404 />;
   }
+
   const {
     id,
     city,
@@ -58,8 +56,6 @@ function Room({ rooms, comments }: roomsType) {
     host,
   } = room;
 
-  const points: Points = getAllPoints(rooms.filter((flat) => room.id !== flat.id ).slice(0, 3));
-
   function onCardHoover(cardId: string) {
     const currentPoint = points.find((point) =>
       point.id === Number(cardId),
@@ -69,6 +65,9 @@ function Room({ rooms, comments }: roomsType) {
     }
   }
 
+  const listItemHoverHandler = (offerId: string) => {
+    onCardHoover(offerId);
+  };
 
   return (
     <React.Fragment>
@@ -205,7 +204,7 @@ function Room({ rooms, comments }: roomsType) {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {getCards(rooms.filter((flat) => room.id !== flat.id ).slice(0, 3), onCardHoover)}
+            {rooms.filter((flat) => room.id !== flat.id ).slice(0, 3).map((offer) => <PlacesNear key={offer.id.toString()} offer={offer} listItemHoverHandler={listItemHoverHandler}/>)}
           </div>
         </section>
       </div>

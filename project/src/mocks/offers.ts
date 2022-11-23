@@ -136,6 +136,40 @@ const offers: offerType[] = [
     type: 'apartment',
   },
   {
+    bedrooms: 1,
+    city: {
+      location: {
+        latitude: 52.3740300,
+        longitude: 4.8896900,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
+    description:
+      'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    goods: ['Heating'],
+    host: {
+      avatarUrl: 'img/1.png',
+      id: 1,
+      isPro: false,
+      name: 'Carmella',
+    },
+    id: 3,
+    images: ['img/1.png'],
+    isPremium: true,
+    location: {
+      latitude: 52.4009553943508,
+      longitude: 4.729309666406198,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage: 'img/1.png',
+    price: 3975,
+    rating: 3.7,
+    title: 'Beautiful & luxurious studio at great location',
+    type: 'apartment',
+  },
+  {
     bedrooms: 3,
     city: {
       location: {
@@ -154,7 +188,7 @@ const offers: offerType[] = [
       isPro: false,
       name: 'Amy',
     },
-    id: 3,
+    id: 4,
     images: ['img/1.png'],
     isPremium: true,
     location: {
