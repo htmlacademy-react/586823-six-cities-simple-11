@@ -29,8 +29,15 @@ function Map(props: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+
   useEffect(() => {
     if (map) {
+      map.eachLayer((layer) => {
+        if (layer instanceof Marker) {
+          map.removeLayer(layer);
+        }
+      });
+
       points.forEach((point) => {
         const marker = new Marker({
           lat: point.latitude,
