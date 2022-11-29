@@ -1,25 +1,27 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Paths } from '../../const';
+import { useAppDispatch } from '../../hooks';
 import { commentType } from '../../mocks/comments';
-import { offerType } from '../../mocks/offers';
 import MainScreen from '../../pages/main-screen';
+import { getOffersAction } from '../../store/actions/action';
 import Error404 from '../error-404/error-404';
 import Login from '../login/login';
 import Room from '../room/room';
 
 type AppProps = {
-  offers: offerType[];
   comments: commentType[][];
 };
 
-function App({ offers, comments }: AppProps): JSX.Element {
+function App({ comments }: AppProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(getOffersAction());
   return (
     <BrowserRouter>
       <Routes>
         <Route path={Paths.MainScreen}>
-          <Route index element={<MainScreen offers={offers} />} />
+          <Route index element={<MainScreen />} />
           <Route path={Paths.Login} element={<Login />} />
-          <Route path={Paths.Offer} element={<Room rooms={offers} comments={comments} />} />
+          <Route path={Paths.Offer} element={<Room comments={comments} />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

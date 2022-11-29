@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import { commentType } from '../../mocks/comments';
 import { offerType } from '../../mocks/offers';
 import { Point, Points } from '../../types/types';
@@ -12,7 +13,6 @@ import ReviewForm from '../review-form/review-form';
 import Reviews from '../reviews/reviews';
 
 type roomsType = {
-  rooms: offerType[];
   comments: commentType[][];
 };
 
@@ -25,7 +25,8 @@ function generateGoods (goods: [string]) : JSX.Element[] {
   return result;
 }
 
-function Room({ rooms, comments }: roomsType) {
+function Room({ comments }: roomsType) {
+  const rooms = useAppSelector((state) => state.offers);
   const params = useParams();
   const [selectedPoint, setSelectedPoint] = useState({});
   const [points, setPoints] = useState<Points>([]);
