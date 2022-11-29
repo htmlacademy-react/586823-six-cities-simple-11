@@ -1,14 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Cities from '../components/cities/cities';
 import Header from '../components/header/header';
-import { offerType } from '../mocks/offers';
+import Locations from '../components/locations/locations';
+import { CITIES_LIST } from '../const';
 
-type MainScreenProps = {
-  offers: offerType[];
-};
-
-function MainScreen({ offers }: MainScreenProps): JSX.Element {
+function MainScreen(): JSX.Element {
   return (
     <React.Fragment>
       <Header isLogged />
@@ -16,45 +12,9 @@ function MainScreen({ offers }: MainScreenProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Paris</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Cologne</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Brussels</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link
-                  className="locations__item-link tabs__item tabs__item--active"
-                  to="#"
-                >
-                  <span>Amsterdam</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Hamburg</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Dusseldorf</span>
-                </Link>
-              </li>
-            </ul>
-          </section>
+          <Locations cities={CITIES_LIST} />
         </div>
-        <Cities offers={offers} />
+        <Cities />
       </main>
     </React.Fragment>
   );

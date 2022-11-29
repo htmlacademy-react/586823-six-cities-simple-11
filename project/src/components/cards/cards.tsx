@@ -1,12 +1,13 @@
-import { offerType } from '../../mocks/offers';
+import { useAppSelector } from '../../hooks';
 import Card from '../card/card';
 
 type CardsProps = {
-  offers: offerType[];
   onCardHoover(id: string): void;
 };
 
-function Cards({ offers, onCardHoover }: CardsProps): JSX.Element {
+function Cards({ onCardHoover }: CardsProps): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+
   const listItemHoverHandler = (id: string) => {
     onCardHoover(id);
   };
