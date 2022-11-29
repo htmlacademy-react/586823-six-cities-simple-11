@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { changeCityAction, getOffersAction } from '../../store/actions/action';
 import { useAppDispatch } from '../../hooks';
+import { CitiesNames } from '../../const';
 
 type locationsType = {
-  cities: string[];
+  cities: CitiesNames[];
 }
 
 function Locations({ cities }: locationsType): JSX.Element {
