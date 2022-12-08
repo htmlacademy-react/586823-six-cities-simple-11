@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
-import { commentType } from '../../mocks/comments';
-import { offerType } from '../../mocks/offers';
-import { Point, Points } from '../../types/types';
+import { commentType, offerType, Point, Points } from '../../types/types';
 import { getAllPoints } from '../../utils';
 import Error404 from '../error-404/error-404';
 import Header from '../header/header';
@@ -11,10 +9,6 @@ import Map from '../map/map';
 import PlacesNear from '../places-near/places-near';
 import ReviewForm from '../review-form/review-form';
 import Reviews from '../reviews/reviews';
-
-type roomsType = {
-  comments: commentType[][];
-};
 
 function generateGoods (goods: [string]) : JSX.Element[] {
   const result: JSX.Element[] = [];
@@ -25,8 +19,9 @@ function generateGoods (goods: [string]) : JSX.Element[] {
   return result;
 }
 
-function Room({ comments }: roomsType) {
+function Room() {
   const rooms = useAppSelector((state) => state.offers);
+  const comments = useAppSelector((state) => state.comments);
   const params = useParams();
   const [selectedPoint, setSelectedPoint] = useState({});
   const [points, setPoints] = useState<Points>([]);
@@ -37,13 +32,11 @@ function Room({ comments }: roomsType) {
       setPoints(getAllPoints(rooms.filter((flat) => room.id !== flat.id).slice(0, 3)));
     }
   }, [params.id, room, rooms]);
-  const offerComments: commentType[] = comments[Number(params.id)];
   if (room === undefined) {
     return <Error404 />;
   }
 
   const {
-    id,
     city,
     type,
     isPremium,
@@ -56,6 +49,8 @@ function Room({ comments }: roomsType) {
     description,
     host,
   } = room;
+
+  const offerComments: commentType[] = comments;
 
   function onCardHoover(cardId: string) {
     const currentPoint = points.find((point) =>
@@ -186,7 +181,7 @@ function Room({ comments }: roomsType) {
               <h2 className="reviews__title">
                 Reviews &middot; <span className="reviews__amount">{offerComments.length}</span>
               </h2>
-              <Reviews offerComments={comments[id]} />
+              <Reviews />
               <ReviewForm />
             </section>
           </div>

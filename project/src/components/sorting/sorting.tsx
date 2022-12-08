@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { SortingTypes } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeSortType, getOffersAction } from '../../store/actions/action';
+import { changeSortTypeAction } from '../../store/actions/action';
+import { fetchGetOffers } from '../../store/actions/api-action';
 import classNames from 'classnames';
 
 function Sorting(): JSX.Element {
   const [isSortingOpen, setSortingStatus] = useState(false);
   const dispatch = useAppDispatch();
-  const sortType = useAppSelector((state) => state.sortType);
+  const sortType: SortingTypes = useAppSelector((state) => state.sortType);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -20,33 +21,33 @@ function Sorting(): JSX.Element {
       </span>
       <ul className={classNames('places__options places__options--custom', isSortingOpen ? 'places__options--opened' : '')}>
         <li className="places__option places__option--active" onClick={() => {
-          dispatch(changeSortType(SortingTypes.Popular));
+          dispatch(changeSortTypeAction(SortingTypes.Popular));
 
-          dispatch(getOffersAction());
+          dispatch(fetchGetOffers());
         }}
         >
           Popular
         </li>
 
         <li className="places__option" onClick={() => {
-          dispatch(changeSortType(SortingTypes.LowHigh));
-          dispatch(getOffersAction());
+          dispatch(changeSortTypeAction(SortingTypes.LowHigh));
+          dispatch(fetchGetOffers());
         }}
         >
           Price: low to high
         </li>
 
         <li className="places__option" onClick={() => {
-          dispatch(changeSortType(SortingTypes.HighLow));
-          dispatch(getOffersAction());
+          dispatch(changeSortTypeAction(SortingTypes.HighLow));
+          dispatch(fetchGetOffers());
         }}
         >
           Price: high to low
         </li>
 
         <li className="places__option" onClick={() => {
-          dispatch(changeSortType(SortingTypes.TopRated));
-          dispatch(getOffersAction());
+          dispatch(changeSortTypeAction(SortingTypes.TopRated));
+          dispatch(fetchGetOffers());
         }}
         >
           Top rated first

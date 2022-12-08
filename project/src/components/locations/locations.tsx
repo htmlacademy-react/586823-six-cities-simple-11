@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { changeCityAction, getOffersAction } from '../../store/actions/action';
+import { changeCityAction } from '../../store/actions/action';
 import { useAppDispatch } from '../../hooks';
 import { CitiesNames } from '../../const';
+import { fetchGetOffers } from '../../store/actions/api-action';
 
 type locationsType = {
   cities: CitiesNames[];
@@ -14,7 +15,7 @@ function Locations({ cities }: locationsType): JSX.Element {
     evt.preventDefault();
     const city: string = evt.currentTarget.textContent ? evt.currentTarget.textContent : '';
     dispatch(changeCityAction(city));
-    dispatch(getOffersAction());
+    dispatch(fetchGetOffers());
   };
 
   return (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { offerType } from '../../mocks/offers';
+import { offerType } from '../../types/types';
 import PlaceCard from '../place-card/place-card';
 
 type PlacesNearType = {
@@ -8,7 +8,7 @@ type PlacesNearType = {
 };
 
 function PlacesNear({ offer, listItemHoverHandler}: PlacesNearType): JSX.Element {
-  const { id } = offer;
+  const { id, previewImage } = offer;
 
   return (
     <article className="near-places__card place-card" onMouseEnter={() => listItemHoverHandler(id.toString())} data-id={id}>
@@ -17,7 +17,7 @@ function PlacesNear({ offer, listItemHoverHandler}: PlacesNearType): JSX.Element
           window.scrollTo(0, 0);
         }}
         >
-          <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="" />
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="" />
         </Link>
       </div>
       <PlaceCard offer={offer}/>

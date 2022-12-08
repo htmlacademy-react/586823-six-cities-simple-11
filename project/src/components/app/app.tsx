@@ -1,31 +1,33 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import browserHistory from '../../browser-history';
 import { Paths } from '../../const';
-import { useAppDispatch } from '../../hooks';
-import { commentType } from '../../mocks/comments';
+import { useAppSelector } from '../../hooks';
 import MainScreen from '../../pages/main-screen';
-import { getOffersAction } from '../../store/actions/action';
 import Error404 from '../error-404/error-404';
+import HistoryRouter from '../history/history-route';
+import LoadingScreen from '../loading-screen/loading-screen';
 import Login from '../login/login';
 import Room from '../room/room';
 
-type AppProps = {
-  comments: commentType[][];
-};
+function App(): JSX.Element {
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-function App({ comments }: AppProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(getOffersAction());
+  if (isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={Paths.MainScreen}>
           <Route index element={<MainScreen />} />
           <Route path={Paths.Login} element={<Login />} />
-          <Route path={Paths.Offer} element={<Room comments={comments} />} />
+          <Route path={Paths.Offer} element={<Room/>} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
