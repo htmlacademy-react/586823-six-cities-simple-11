@@ -1,5 +1,4 @@
-import { offerType } from './mocks/offers';
-import { Point, Points } from './types/types';
+import { offerType, Point, Points } from './types/types';
 
 function getAllPoints(offers: offerType[]): Points {
   const result: Points = [];

@@ -1,23 +1,33 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCityAction, changeSortType, getOffersAction } from './actions/action';
-import { offers, offerType } from '../mocks/offers';
-import { SortingTypes } from '../const';
+import { changeCityAction, changeSortTypeAction, getCommentsAction, getOffersAction, requireAuthorizationStatusAction, setActiveRoomId, setError, setOffersDataLoadingStatus } from './actions/action';
+import { AuthorizationStatus, SortingTypes } from '../const';
+import { commentType, offerType } from '../types/types';
 
 type initializeStateType = {
   city: string;
   offers: offerType[];
+  comments: commentType[];
   sortType: SortingTypes;
-}
+  authorizationStatus: AuthorizationStatus;
+  error: string | null;
+  activeRoomId: number | null;
+  isOffersDataLoading: boolean;
+};
 
 const initializeState: initializeStateType = {
   city: 'Paris',
-  offers: offers,
+  offers: [],
+  comments: [],
   sortType: SortingTypes.Popular,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
+  isOffersDataLoading: false,
+  activeRoomId: null,
 };
 
 export const reducer = createReducer(initializeState, (builder) => {
-  builder.addCase(getOffersAction, (state) => {
-    const cityOffers: offerType[] = offers.filter((offer) => offer.city.name === state.city);
+  builder.addCase(getOffersAction, (state, action) => {
+    const cityOffers: offerType[] = action.payload.filter((offer: offerType) => offer.city.name === state.city);
 
     switch (state.sortType) {
       case SortingTypes.Popular:
@@ -49,7 +59,22 @@ export const reducer = createReducer(initializeState, (builder) => {
     .addCase(changeCityAction, (state, city) => {
       state.city = city.payload;
     })
-    .addCase(changeSortType, (state, sortType) => {
+    .addCase(changeSortTypeAction, (state, sortType) => {
       state.sortType = sortType.payload;
+    })
+    .addCase(getCommentsAction, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(requireAuthorizationStatusAction, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setActiveRoomId, (state, action) => {
+      state.activeRoomId = action.payload;
     });
 });

@@ -1,8 +1,5 @@
-import { commentType } from '../../mocks/comments';
-
-type commentsType = {
-  offerComments: commentType[];
-};
+import { useAppSelector } from '../../hooks';
+import { commentType } from '../../types/types';
 
 function generateComments(comments: commentType[]): JSX.Element[] {
   const result: JSX.Element[] = [];
@@ -44,10 +41,11 @@ function generateComments(comments: commentType[]): JSX.Element[] {
   return result;
 }
 
-function Reviews({ offerComments }: commentsType) {
+function Reviews() {
+  const comments = useAppSelector((state) => state.comments);
   return (
     <ul className="reviews__list">
-      {generateComments(offerComments)}
+      {generateComments(comments)}
     </ul>
   );
 }

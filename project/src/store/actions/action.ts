@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { SortingTypes } from '../../const';
+import { AuthorizationStatus, SortingTypes } from '../../const';
+import { commentType, offerType } from '../../types/types';
 
 
 const changeCityAction = createAction('changeCity', (value: string) => ({
@@ -7,11 +8,21 @@ const changeCityAction = createAction('changeCity', (value: string) => ({
   currentTime: new Date().getTime(),
 }));
 
-const changeSortType = createAction('changeSortType', (value: SortingTypes) => ({
+const changeSortTypeAction = createAction('changeSortType', (value: SortingTypes) => ({
   payload: value,
   currentTime: new Date().getTime(),
 }));
 
-const getOffersAction = createAction('getOffers');
+const getOffersAction = createAction<offerType[]>('data/offers');
 
-export { changeCityAction, getOffersAction, changeSortType };
+const getCommentsAction = createAction<commentType[]>('data/comments');
+
+const requireAuthorizationStatusAction = createAction<AuthorizationStatus>('authorization');
+
+const setOffersDataLoadingStatus = createAction<boolean>('data/setQuestionsDataLoadingStatus');
+
+const setError = createAction<string | null>('setError');
+
+const setActiveRoomId = createAction<number | null>('activeRoomId');
+
+export { changeCityAction, setActiveRoomId, setError, changeSortTypeAction, getOffersAction, requireAuthorizationStatusAction, setOffersDataLoadingStatus, getCommentsAction};
