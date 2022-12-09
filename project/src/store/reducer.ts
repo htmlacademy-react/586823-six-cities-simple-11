@@ -3,7 +3,7 @@ import { changeCityAction, changeSortTypeAction, getCommentsAction, getOffersAct
 import { AuthorizationStatus, SortingTypes } from '../const';
 import { commentType, offerType } from '../types/types';
 
-type initializeStateType = {
+export type initializeStateType = {
   city: string;
   offers: offerType[];
   comments: commentType[];
