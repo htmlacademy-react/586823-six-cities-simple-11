@@ -7,7 +7,7 @@ import { CITIES_LIST } from '../const';
 function MainScreen(): JSX.Element {
   return (
     <React.Fragment>
-      <Header isLogged />
+      <Header />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

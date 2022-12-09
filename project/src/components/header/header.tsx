@@ -1,9 +1,13 @@
-type HeaderProps = {
-  isLogged: boolean;
-};
+import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
+import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { AuthorizationStatus, Paths } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/actions/api-action';
+import { initializeStateType } from '../../store/reducer';
 
-function getContent(isLogged: boolean) {
-  if (isLogged) {
+function getContent(isLogged: AuthorizationStatus, navigator: NavigateFunction, dispatch: ThunkDispatch<initializeStateType, AxiosInstance, AnyAction> & Dispatch<AnyAction>) {
+  if (isLogged === AuthorizationStatus.Authorisated) {
     return (
       <>
         <li className="header__nav-item user">
@@ -15,39 +19,47 @@ function getContent(isLogged: boolean) {
           </div>
         </li>
         <li className="header__nav-item">
-          <a className="header__nav-link" href="#">
-            <span className="header__signout">Sign out</span>
-          </a>
+          <Link to={Paths.MainScreen} onClick={() => {
+            dispatch(logoutAction());
+          }}
+          >
+            <span className="header__signout">Sign out
+            </span>
+          </Link>
         </li>
       </>
     );
   } else {
     return (
       <li className="header__nav-item user">
-        <a className="header__nav-link header__nav-link--profile" href="#">
+        <Link to={Paths.Login} className="header__nav-link header__nav-link--profile" >
           <div className="header__avatar-wrapper user__avatar-wrapper"></div>
           <span className="header__login">Sign in</span>
-        </a>
+        </Link>
       </li>
     );
   }
 }
 
-function account(isLogged: boolean) {
+function account(isLogged: AuthorizationStatus, navigator: NavigateFunction, dispatch: ThunkDispatch<initializeStateType, AxiosInstance, AnyAction> & Dispatch<AnyAction>) {
   return (
     <nav className="header__nav">
-      <ul className="header__nav-list">{getContent(isLogged)}</ul>
+      <ul className="header__nav-list">{getContent(isLogged, navigator, dispatch)}</ul>
     </nav>
   );
 }
 
-function Header({ isLogged }: HeaderProps): JSX.Element {
+function Header(): JSX.Element {
+  const navigator = useNavigate();
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link header__logo-link--active">
+            <Link to={Paths.MainScreen} className="header__logo-link header__logo-link--active">
               <img
                 className="header__logo"
                 src="img/logo.svg"
@@ -55,9 +67,9 @@ function Header({ isLogged }: HeaderProps): JSX.Element {
                 width="81"
                 height="41"
               />
-            </a>
+            </Link>
           </div>
-          {account(isLogged)}
+          {account(authorizationStatus, navigator, dispatch)}
         </div>
       </div>
     </header>

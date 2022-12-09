@@ -1,17 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { loginAction } from '../../store/actions/api-action';
 import Header from '../header/header';
+import { AuthData } from '../../types/auth-data';
+import { Paths } from '../../const';
 
 function Login(): JSX.Element {
+  const currentCity = useAppSelector((state) => state.city);
+  const dispatch = useAppDispatch();
+  const navigator = useNavigate();
+  const authorizationform = useRef(null);
+
   return (
     <React.Fragment>
-      <Header isLogged={false} />
+      <Header />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" ref={authorizationform} action="#" method="post" onSubmit={(evt) => {
+              evt.preventDefault();
+              if (authorizationform.current !== null) {
+                const formData = new FormData(authorizationform.current);
+                const login: AuthData = {
+                  login: formData.get('email')?.toString() ?? '',
+                  password: formData.get('password')?.toString() ?? '',
+                };
+                dispatch(loginAction(login));
+                return navigator(Paths.MainScreen);
+              }
+            }}
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -43,7 +64,7 @@ function Login(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <Link className="locations__item-link" to="#">
-                <span>Amsterdam</span>
+                <span>{currentCity}</span>
               </Link>
             </div>
           </section>

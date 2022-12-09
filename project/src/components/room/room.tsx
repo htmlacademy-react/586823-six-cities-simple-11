@@ -67,7 +67,7 @@ function Room() {
 
   return (
     <React.Fragment>
-      <Header isLogged={false} />
+      <Header />
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
