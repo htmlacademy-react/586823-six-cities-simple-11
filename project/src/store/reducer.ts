@@ -1,28 +1,32 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCityAction, changeSortTypeAction, getCommentsAction, getOffersAction, requireAuthorizationStatusAction, setActiveRoomId, setError, setOffersDataLoadingStatus } from './actions/action';
+import { changeCityAction, changeSortTypeAction, setCurrentRoomId, getOffersNearAction, getRoomAction, getCommentsAction, getOffersAction, requireAuthorizationStatusAction, setError, setOffersDataLoadingStatus } from './actions/action';
 import { AuthorizationStatus, SortingTypes } from '../const';
 import { commentType, offerType } from '../types/types';
 
 export type initializeStateType = {
   city: string;
   offers: offerType[];
+  offersNear: offerType[];
   comments: commentType[];
+  room: offerType | null;
   sortType: SortingTypes;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
-  activeRoomId: number | null;
+  currentRoomId: number | null;
   isOffersDataLoading: boolean;
 };
 
 const initializeState: initializeStateType = {
   city: 'Paris',
   offers: [],
+  offersNear: [],
   comments: [],
+  room: null,
+  currentRoomId: null,
   sortType: SortingTypes.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   isOffersDataLoading: false,
-  activeRoomId: null,
 };
 
 export const reducer = createReducer(initializeState, (builder) => {
@@ -74,7 +78,13 @@ export const reducer = createReducer(initializeState, (builder) => {
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setActiveRoomId, (state, action) => {
-      state.activeRoomId = action.payload;
+    .addCase(getRoomAction, (state, action) => {
+      state.room = action.payload;
+    })
+    .addCase(getOffersNearAction, (state, action) => {
+      state.offersNear = action.payload;
+    })
+    .addCase(setCurrentRoomId, (state, action) => {
+      state.currentRoomId = action.payload;
     });
 });

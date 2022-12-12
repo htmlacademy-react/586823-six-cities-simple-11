@@ -23,7 +23,7 @@ function App(): JSX.Element {
         <Route path={Paths.MainScreen}>
           <Route index element={<MainScreen />} />
           <Route path={Paths.Login} element={<Login />} />
-          <Route path={Paths.Offer} element={<Room/>} />
+          <Route path={Paths.Offer} element={<Room />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
