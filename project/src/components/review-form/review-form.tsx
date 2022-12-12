@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { addComment } from '../../store/actions/api-action';
 
 function ReviewForm(): JSX.Element {
   const [userAnswers, setUserAnswers] = useState({
     value: '',
     starsCount: 0,
   });
+  const dispatch = useAppDispatch();
+  const currentRoomId = useAppSelector((state) => state.currentRoomId);
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={(evt) => {
+      evt.preventDefault();
+      if (currentRoomId !== null) {
+        const commentContainer = {
+          comment: userAnswers.value,
+          rating: userAnswers.starsCount,
+        };
+        dispatch(addComment({commentContainer, offerId: currentRoomId}));
+      }
+    }}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review {userAnswers.starsCount}
       </label>
       <div
         className="reviews__rating-form form__rating"
         onClick={(evt) => {
-          const element = evt.currentTarget;
+          const element = evt.target as HTMLInputElement;
 
           if (element.classList.contains('form__rating-input')) {
-            const target = evt.target as HTMLInputElement;
             setUserAnswers({
               ...userAnswers,
-              starsCount: Number(target.value),
+              starsCount: Number(element.value),
             });
           }
         }}
@@ -129,7 +142,6 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
         >
           Submit
         </button>

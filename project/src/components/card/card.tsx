@@ -1,7 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
-import { setActiveRoomId } from '../../store/actions/action';
-import { fetchGetComments } from '../../store/actions/api-action';
 import { offerType } from '../../types/types';
 import PlaceCard from '../place-card/place-card';
 
@@ -11,16 +8,11 @@ type CardType = {
 };
 
 function Card({ offer, listItemHoverHandler }: CardType): JSX.Element {
-  const dispatch = useAppDispatch();
   const { isPremium, id, previewImage} = offer;
 
   return (
     <Link to={`/offer/${id}`}>
-      <article className="cities__card place-card" onMouseEnter={() => listItemHoverHandler(id.toString())} data-id={id} onClick={() => {
-        dispatch(setActiveRoomId(id));
-        dispatch(fetchGetComments());
-      }}
-      >
+      <article className="cities__card place-card" onMouseEnter={() => listItemHoverHandler(id.toString())} data-id={id}>
         <div className="place-card__mark">
           <span>{isPremium === true ? 'Premium' : 'Standart'}</span>
         </div>

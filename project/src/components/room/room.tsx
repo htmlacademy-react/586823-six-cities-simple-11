@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import { commentType, offerType, Point, Points } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setCurrentRoomId } from '../../store/actions/action';
+import { fetchAllRoomInfo } from '../../store/actions/api-action';
+import { commentType, Point, Points } from '../../types/types';
 import { getAllPoints } from '../../utils';
 import Error404 from '../error-404/error-404';
 import Header from '../header/header';
@@ -20,19 +22,27 @@ function generateGoods (goods: [string]) : JSX.Element[] {
 }
 
 function Room() {
-  const rooms = useAppSelector((state) => state.offers);
+  const room = useAppSelector((state) => state.room);
+  const offersNear = useAppSelector((state) => state.offersNear);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const comments = useAppSelector((state) => state.comments);
+  const dispatch = useAppDispatch();
   const params = useParams();
   const [selectedPoint, setSelectedPoint] = useState({});
   const [points, setPoints] = useState<Points>([]);
-  const room: offerType | undefined = rooms.find((roomItem) => roomItem.id === Number(params.id));
+
+
+  useEffect(() => {
+    dispatch(setCurrentRoomId(Number(params.id)));
+    dispatch(fetchAllRoomInfo());
+  }, [dispatch, params.id]);
 
   useEffect(() => {
     if (room !== undefined) {
-      setPoints(getAllPoints(rooms.filter((flat) => room.id !== flat.id).slice(0, 3)));
+      setPoints(getAllPoints(offersNear));
     }
-  }, [params.id, room, rooms]);
-  if (room === undefined) {
+  }, [offersNear, room]);
+  if (room === undefined || room === null) {
     return <Error404 />;
   }
 
@@ -182,7 +192,7 @@ function Room() {
                 Reviews &middot; <span className="reviews__amount">{offerComments.length}</span>
               </h2>
               <Reviews />
-              <ReviewForm />
+              {authorizationStatus ? <ReviewForm /> : ''}
             </section>
           </div>
         </div>
@@ -200,7 +210,7 @@ function Room() {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {rooms.filter((flat) => room.id !== flat.id ).slice(0, 3).map((offer) => <PlacesNear key={offer.id.toString()} offer={offer} listItemHoverHandler={listItemHoverHandler}/>)}
+            {offersNear.map((offer) => <PlacesNear key={offer.id.toString()} offer={offer} listItemHoverHandler={listItemHoverHandler}/>)}
           </div>
         </section>
       </div>

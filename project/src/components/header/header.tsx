@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { AuthorizationStatus, Paths } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getEmail } from '../../services/email';
 import { logoutAction } from '../../store/actions/api-action';
 import { initializeStateType } from '../../store/reducer';
 
@@ -14,7 +15,7 @@ function getContent(isLogged: AuthorizationStatus, navigator: NavigateFunction, 
           <div className="header__nav-profile">
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
             <span className="header__user-name user__name">
-              Oliver.conner@gmail.com
+              {getEmail()}
             </span>
           </div>
         </li>

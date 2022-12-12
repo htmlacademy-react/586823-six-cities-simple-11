@@ -59,3 +59,11 @@ export type commentType = {
     name: string;
   };
 };
+
+export type addCommentType = {
+  commentContainer: {
+    comment: string;
+    rating: number;
+  };
+  offerId: number;
+}
