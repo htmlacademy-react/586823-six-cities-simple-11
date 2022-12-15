@@ -5,6 +5,10 @@ type PlaceCardType = {
   offer: offerType;
 };
 
+const handleOfferClick = () => {
+  window.scrollTo(0, 0);
+};
+
 function PlaceCard({ offer }: PlaceCardType): JSX.Element {
   const { type, price, title, id, rating } = offer;
 
@@ -23,10 +27,7 @@ function PlaceCard({ offer }: PlaceCardType): JSX.Element {
         </div>
       </div>
       <h2 className="place-card__name">
-        <Link to={`/offer/${id}`} onClick={() => {
-          window.scrollTo(0, 0);
-        }}
-        >{title}
+        <Link to={`/offer/${id}`} onClick={handleOfferClick}>{title}
         </Link>
       </h2>
       <p className="place-card__type">{type}</p>

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCityAction, changeSortTypeAction, setCurrentRoomId, getOffersNearAction, getRoomAction, getCommentsAction, getOffersAction, requireAuthorizationStatusAction, setError, setOffersDataLoadingStatus } from './actions/action';
+import { changeCityAction, changeSortTypeAction, setCurrentRoomId, setSortingStatus, getOffersNearAction, getRoomAction, getCommentsAction, getOffersAction, requireAuthorizationStatusAction, setError, setOffersDataLoadingStatus } from './actions/action';
 import { AuthorizationStatus, SortingTypes } from '../const';
 import { commentType, offerType } from '../types/types';
 
@@ -14,6 +14,7 @@ export type initializeStateType = {
   error: string | null;
   currentRoomId: number | null;
   isOffersDataLoading: boolean;
+  isSortingOpen: boolean;
 };
 
 const initializeState: initializeStateType = {
@@ -27,6 +28,7 @@ const initializeState: initializeStateType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   isOffersDataLoading: false,
+  isSortingOpen: false,
 };
 
 export const reducer = createReducer(initializeState, (builder) => {
@@ -86,5 +88,8 @@ export const reducer = createReducer(initializeState, (builder) => {
     })
     .addCase(setCurrentRoomId, (state, action) => {
       state.currentRoomId = action.payload;
+    })
+    .addCase(setSortingStatus, (state, action) => {
+      state.isSortingOpen = action.payload;
     });
 });

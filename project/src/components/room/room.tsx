@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCurrentRoomId } from '../../store/actions/action';
 import { fetchAllRoomInfo } from '../../store/actions/api-action';
-import { commentType, Point, Points } from '../../types/types';
+import { commentType, Points } from '../../types/types';
 import { getAllPoints } from '../../utils';
 import Error404 from '../error-404/error-404';
 import Header from '../header/header';
@@ -28,7 +28,6 @@ function Room() {
   const comments = useAppSelector((state) => state.comments);
   const dispatch = useAppDispatch();
   const params = useParams();
-  const [selectedPoint, setSelectedPoint] = useState({});
   const [points, setPoints] = useState<Points>([]);
 
 
@@ -62,18 +61,7 @@ function Room() {
 
   const offerComments: commentType[] = comments;
 
-  function onCardHoover(cardId: string) {
-    const currentPoint = points.find((point) =>
-      point.id === Number(cardId),
-    );
-    if (currentPoint) {
-      setSelectedPoint(currentPoint);
-    }
-  }
-
-  const listItemHoverHandler = (offerId: string) => {
-    onCardHoover(offerId);
-  };
+  const handleListItemHover = () => null;
 
   return (
     <React.Fragment>
@@ -202,7 +190,7 @@ function Room() {
             latitude: city.location.latitude,
             longitude: city.location.longitude,
             zoom: city.location.zoom
-          }} points={points} selectedPoint={selectedPoint as Point || undefined}
+          }} points={points} selectedPoint={undefined}
           />
         </section>
       </section>
@@ -210,7 +198,7 @@ function Room() {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {offersNear.map((offer) => <PlacesNear key={offer.id.toString()} offer={offer} listItemHoverHandler={listItemHoverHandler}/>)}
+            {offersNear.map((offer) => <PlacesNear key={offer.id.toString()} offer={offer} listItemHoverHandler={handleListItemHover}/>)}
           </div>
         </section>
       </div>

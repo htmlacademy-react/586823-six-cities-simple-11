@@ -1,9 +1,11 @@
+import './locations.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { changeCityAction } from '../../store/actions/action';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { CitiesNames } from '../../const';
 import { fetchGetOffers } from '../../store/actions/api-action';
+import classNames from 'classnames';
 
 type locationsType = {
   cities: CitiesNames[];
@@ -11,7 +13,8 @@ type locationsType = {
 
 function Locations({ cities }: locationsType): JSX.Element {
   const dispatch = useAppDispatch();
-  const OnCityClick = (evt: React.MouseEvent) => {
+  const currentCity = useAppSelector((state) => state.city);
+  const handleCityClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
     const city: string = evt.currentTarget.textContent ? evt.currentTarget.textContent : '';
     dispatch(changeCityAction(city));
@@ -22,8 +25,8 @@ function Locations({ cities }: locationsType): JSX.Element {
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {cities.map((city) => (
-          <li key={city} className="locations__item">
-            <Link className="locations__item-link tabs__item" to="#" onClick={OnCityClick}>
+          <li key={city} className={classNames('locations__item', city === currentCity ? 'locations__item--active' : '')}>
+            <Link className="locations__item-link tabs__item" to="#" onClick={handleCityClick}>
               <span>{city}</span>
             </Link>
           </li>
