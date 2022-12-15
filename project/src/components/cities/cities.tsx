@@ -20,7 +20,7 @@ function Cities(): JSX.Element {
 
   const [selectedPoint, setSelectedPoint] = useState({});
 
-  function onCardHoover(cardId: string) {
+  function handleCardHover(cardId: string) {
     const currentPoint = points.find((point) =>
       point.id === Number(cardId),
     );
@@ -37,7 +37,7 @@ function Cities(): JSX.Element {
           <b className="places__found">{offers.length} places to stay in {currentCity.name}</b>
           <Sorting />
           <div className="cities__places-list places__list tabs__content">
-            <Cards onCardHoover={onCardHoover}/>
+            <Cards onCardHoover={handleCardHover}/>
           </div>
         </section>
         <div className="cities__right-section">

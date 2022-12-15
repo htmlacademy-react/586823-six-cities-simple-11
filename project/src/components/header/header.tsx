@@ -1,13 +1,13 @@
 import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthorizationStatus, Paths } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getEmail } from '../../services/email';
 import { logoutAction } from '../../store/actions/api-action';
 import { initializeStateType } from '../../store/reducer';
 
-function getContent(isLogged: AuthorizationStatus, navigator: NavigateFunction, dispatch: ThunkDispatch<initializeStateType, AxiosInstance, AnyAction> & Dispatch<AnyAction>) {
+function getContent(isLogged: AuthorizationStatus, dispatch: ThunkDispatch<initializeStateType, AxiosInstance, AnyAction> & Dispatch<AnyAction>) {
   if (isLogged === AuthorizationStatus.Authorisated) {
     return (
       <>
@@ -42,16 +42,15 @@ function getContent(isLogged: AuthorizationStatus, navigator: NavigateFunction, 
   }
 }
 
-function account(isLogged: AuthorizationStatus, navigator: NavigateFunction, dispatch: ThunkDispatch<initializeStateType, AxiosInstance, AnyAction> & Dispatch<AnyAction>) {
+function account(isLogged: AuthorizationStatus, dispatch: ThunkDispatch<initializeStateType, AxiosInstance, AnyAction> & Dispatch<AnyAction>) {
   return (
     <nav className="header__nav">
-      <ul className="header__nav-list">{getContent(isLogged, navigator, dispatch)}</ul>
+      <ul className="header__nav-list">{getContent(isLogged, dispatch)}</ul>
     </nav>
   );
 }
 
 function Header(): JSX.Element {
-  const navigator = useNavigate();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -70,7 +69,7 @@ function Header(): JSX.Element {
               />
             </Link>
           </div>
-          {account(authorizationStatus, navigator, dispatch)}
+          {account(authorizationStatus, dispatch)}
         </div>
       </div>
     </header>

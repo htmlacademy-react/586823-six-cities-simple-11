@@ -29,3 +29,4 @@ export const setCurrentRoomId = createAction<number | null>('setCurrentRoomId');
 
 export const getOffersNearAction = createAction<offerType[]>('data/offersNear');
 
+export const setSortingStatus = createAction<boolean>('mainScreen/setSortingStatus');

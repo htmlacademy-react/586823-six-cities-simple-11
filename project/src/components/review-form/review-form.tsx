@@ -10,6 +10,17 @@ function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const currentRoomId = useAppSelector((state) => state.currentRoomId);
 
+  const handleRatingClick = (evt: React.SyntheticEvent) => {
+    const element = evt.target as HTMLInputElement;
+
+    if (element.classList.contains('form__rating-input')) {
+      setUserAnswers({
+        ...userAnswers,
+        starsCount: Number(element.value),
+      });
+    }
+  };
+
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={(evt) => {
       evt.preventDefault();
@@ -27,16 +38,7 @@ function ReviewForm(): JSX.Element {
       </label>
       <div
         className="reviews__rating-form form__rating"
-        onClick={(evt) => {
-          const element = evt.target as HTMLInputElement;
-
-          if (element.classList.contains('form__rating-input')) {
-            setUserAnswers({
-              ...userAnswers,
-              starsCount: Number(element.value),
-            });
-          }
-        }}
+        onClick={handleRatingClick}
       >
         <input
           className="form__rating-input visually-hidden"
