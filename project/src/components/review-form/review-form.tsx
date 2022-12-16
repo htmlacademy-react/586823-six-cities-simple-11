@@ -29,7 +29,12 @@ function ReviewForm(): JSX.Element {
           comment: userAnswers.value,
           rating: userAnswers.starsCount,
         };
-        dispatch(addComment({commentContainer, offerId: currentRoomId}));
+        dispatch(addComment({ commentContainer, offerId: currentRoomId }));
+        setUserAnswers({
+          ...userAnswers,
+          value: '',
+          starsCount: 0,
+        });
       }
     }}
     >
@@ -46,6 +51,7 @@ function ReviewForm(): JSX.Element {
           value="5"
           id="5-stars"
           type="radio"
+          checked={userAnswers.starsCount === 5 }
         />
         <label
           htmlFor="5-stars"
@@ -63,6 +69,7 @@ function ReviewForm(): JSX.Element {
           value="4"
           id="4-stars"
           type="radio"
+          checked={userAnswers.starsCount === 4 }
         />
         <label
           htmlFor="4-stars"
@@ -80,6 +87,7 @@ function ReviewForm(): JSX.Element {
           value="3"
           id="3-stars"
           type="radio"
+          checked={userAnswers.starsCount === 3 }
         />
         <label
           htmlFor="3-stars"
@@ -97,6 +105,7 @@ function ReviewForm(): JSX.Element {
           value="2"
           id="2-stars"
           type="radio"
+          checked={userAnswers.starsCount === 2 }
         />
         <label
           htmlFor="2-stars"
@@ -114,6 +123,7 @@ function ReviewForm(): JSX.Element {
           value="1"
           id="1-star"
           type="radio"
+          checked={userAnswers.starsCount === 1 }
         />
         <label
           htmlFor="1-star"
@@ -133,6 +143,7 @@ function ReviewForm(): JSX.Element {
         onChange={(e) => {
           setUserAnswers({ ...userAnswers, value: e.target.value });
         }}
+        value={userAnswers.value}
       >
       </textarea>
       <div className="reviews__button-wrapper">
